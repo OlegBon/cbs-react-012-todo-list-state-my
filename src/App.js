@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState } from "react";
+import Task from "./components/Task/Task";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -19,19 +20,8 @@ function App() {
     setTaskTitle(e.target.value);
   };
 
-  const changeTaskStateHandler = (id) => {
-    let newTasks = tasks.map((task) =>
-      task.id === id ? { ...task, completed: !task.completed } : task
-    );
-    setTasks(newTasks);
-  };
-
   const removeAllTasksHandler = () => {
     setTasks([]);
-  };
-
-  const removeTask = (id) => {
-    setTasks([...tasks.filter((task) => task.id !== id)]);
   };
 
   return (
@@ -48,22 +38,7 @@ function App() {
         <button onClick={removeAllTasksHandler}>Remove All Task</button>
       </div>
       <div className="Tasks">
-        {tasks.map((task) => (
-          <div
-            className={task.completed ? "Task Completed" : "Task"}
-            key={task.id}
-          >
-            <input
-              type="checkbox"
-              defaultChecked={task.completed}
-              // onInput прибираємо тому що є onChange
-              // onInput={onChangeHandler}
-              onChange={() => changeTaskStateHandler(task.id)}
-            />
-            <h1>{task.title}</h1>
-            <button onClick={() => removeTask(task.id)}>Delete/Drop</button>
-          </div>
-        ))}
+        <Task tasks={tasks} setTasks={setTasks} />
       </div>
     </div>
   );
